@@ -1,6 +1,5 @@
 import 'dotenv/config'
-import { createBot } from '@builderbot/bot' // MODIFICADO: Eliminado MemoryDB de aquí
-import { RedisAdapter } from '@builderbot-plugins/db-redis' // AÑADIDO: Importación de RedisAdapter
+import { createBot, MemoryDB } from '@builderbot/bot' // MODIFICADO: Vuelve a importar MemoryDB
 import AIClass from './services/ai';
 import flow from './flows';
 import { provider } from './provider';
@@ -17,7 +16,7 @@ const ai = new AIClass(process.env.OPEN_API_KEY, 'gpt-4o-mini')
 const main = async () => {
     /** Objeto que contiene el servidor HTTP y el manejador de contexto */
     const { httpServer, handleCtx } = await createBot({
-        database: new RedisAdapter(), // MODIFICADO: Usando RedisAdapter
+        database: new MemoryDB(), // MODIFICADO: Vuelve a usar MemoryDB
         provider,
         flow,
     }, { extensions: { ai } })
